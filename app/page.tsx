@@ -19,7 +19,7 @@ export default function Home() {
   const goTo = useCallback(
     (next: number) => {
       if (transitioning.current) return;
-      if (next < 0 || next > 6) return;
+      if (next < 0 || next > 7) return;
       if (next === slide) return;
       transitioning.current = true;
       setVisible(false);
@@ -93,6 +93,14 @@ export default function Home() {
         <PercentageRow values={SOCIALISM} />
         <PercentageRow values={EXTREME} />
         <PercentageRow values={userGuess} />
+      </div>
+    );
+  } else if (slide === 6) {
+    bottomContent = (
+      <div className="flex flex-col gap-0.5">
+        <PercentageRow values={SOCIALISM} />
+        <PercentageRow values={EXTREME} />
+        <PercentageRow values={userGuess} />
         <PercentageRow values={ACTUAL} />
       </div>
     );
@@ -105,8 +113,9 @@ export default function Home() {
       {slide === 2 && <ExtremeSlide />}
       {slide === 3 && <GuessSlide values={userGuess} sum={sum} />}
       {slide === 4 && <YourGuessSlide values={userGuess} />}
-      {slide === 5 && <ResultsSlide userGuess={userGuess} />}
-      {slide === 6 && <EndSlide />}
+      {slide === 5 && <ComparisonSlide userGuess={userGuess} />}
+      {slide === 6 && <ResultsSlide userGuess={userGuess} />}
+      {slide === 7 && <EndSlide />}
     </SlideLayout>
   );
 }
@@ -170,7 +179,7 @@ function GuessSlide({
       </div>
       <WealthBar values={values} />
       <p className="font-[family-name:var(--font-bodoni)] text-2xl md:text-3xl text-center">
-        What do you think the actual distribution was in 2026?
+        What do you think the actual distribution was in 2025?
       </p>
     </div>
   );
@@ -211,6 +220,34 @@ function YourGuessSlide({ values }: { values: number[] }) {
       <WealthBar values={values} />
       <p className="font-[family-name:var(--font-bodoni)] text-2xl md:text-3xl text-center">
         Let&apos;s see how close you got to the actual numbers...
+      </p>
+    </div>
+  );
+}
+
+function ComparisonSlide({ userGuess }: { userGuess: number[] }) {
+  const rows = [
+    { label: "Socialism:", values: SOCIALISM },
+    { label: "Extreme example:", values: EXTREME },
+    { label: "Your guess:", values: userGuess },
+  ];
+
+  return (
+    <div className="w-full max-w-5xl flex flex-col items-center gap-4">
+      <div className="w-full flex flex-col gap-3">
+        {rows.map((row) => (
+          <div key={row.label} className="flex items-center gap-4">
+            <span className="font-[family-name:var(--font-bodoni)] text-xl md:text-2xl font-bold text-right w-52 shrink-0">
+              {row.label}
+            </span>
+            <div className="flex-1">
+              <WealthBar values={row.values} height="h-10" />
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="font-[family-name:var(--font-bodoni)] text-2xl md:text-3xl text-center mt-2">
+        Here&apos;s how your guess stacked up to what we&apos;ve seen so far.
       </p>
     </div>
   );
