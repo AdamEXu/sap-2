@@ -172,11 +172,6 @@ function GuessSlide({
       <p className="font-[family-name:var(--font-bodoni)] text-2xl md:text-3xl text-center">
         What do you think the actual distribution was in 2026?
       </p>
-      {sum !== 100 && (
-        <p className="text-red-500 font-[family-name:var(--font-bodoni)] text-lg">
-          Values must sum to 100 to continue.
-        </p>
-      )}
     </div>
   );
 }
